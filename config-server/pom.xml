@@ -10,7 +10,7 @@
 
     <artifactId>config-server</artifactId>
     <packaging>jar</packaging>
-    <name>config-center-server</name>
+    <name>config-server</name>
     <url>http://maven.apache.org</url>
 
     <dependencies>
