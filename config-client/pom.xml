@@ -8,7 +8,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>config-center-client</artifactId>
+    <artifactId>config-client</artifactId>
     <packaging>jar</packaging>
     <name>config-center-client</name>
     <url>http://maven.apache.org</url>

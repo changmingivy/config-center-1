@@ -11,9 +11,9 @@
     <url>http://maven.apache.org</url>
 
     <modules>
-        <module>config-center-server</module>
-        <module>config-center-client</module>
-        <module>config-center-home</module>
+        <module>config-server</module>
+        <module>config-client</module>
+        <module>config-home</module>
     </modules>
 
     <properties>
