@@ -14,6 +14,7 @@
         <module>config-server</module>
         <module>config-client</module>
         <module>config-home</module>
+        <module>config-client-home</module>
     </modules>
 
     <properties>
