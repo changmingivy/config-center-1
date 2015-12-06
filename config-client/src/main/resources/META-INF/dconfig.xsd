@@ -17,7 +17,19 @@
             <xsd:documentation><![CDATA[]]></xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
-            <xsd:attribute name="files" type="xsd:string">
+            <xsd:sequence>
+                <xsd:element ref="locations" />
+                <!--<xsd:element ref="zk-address" />-->
+                <xsd:element ref="namespace" />
+            </xsd:sequence>
+
+            <!--<xsd:sequence>-->
+                <!--<xsd:element name="locations" type="xsd:string" />-->
+                <!--<xsd:element name="zk-address" type="xsd:string" />-->
+                <!--<xsd:element name="namespace" type="xsd:string" />-->
+            <!--</xsd:sequence>-->
+
+            <xsd:attribute name="locations" type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation><![CDATA[]]></xsd:documentation>
                 </xsd:annotation>
@@ -30,9 +42,40 @@
         </xsd:complexType>
     </xsd:element>
 
-    <xsd:element name="annotation-driven">
-        <xsd:annotation>
-            <xsd:documentation><![CDATA[]]></xsd:documentation>
-        </xsd:annotation>
+    <xsd:element name="locations">
+        <xsd:complexType>
+            <xsd:attribute name="value" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation><![CDATA[]]></xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+        </xsd:complexType>
     </xsd:element>
+
+    <xsd:element name="zk-address">
+        <xsd:complexType>
+            <xsd:attribute name="value" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation><![CDATA[]]></xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="namespace">
+        <xsd:complexType>
+            <xsd:attribute name="value" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation><![CDATA[]]></xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+        </xsd:complexType>
+    </xsd:element>
+
+
+    <!--<xsd:element name="annotation-driven">-->
+        <!--<xsd:annotation>-->
+            <!--<xsd:documentation><![CDATA[]]></xsd:documentation>-->
+        <!--</xsd:annotation>-->
+    <!--</xsd:element>-->
 </xsd:schema>

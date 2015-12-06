@@ -17,4 +17,20 @@ public class BProjectService {
 
     @DConfig("config.center.bproject.db4")
     private String db4;
+
+    public String getDb3() {
+        return db3;
+    }
+
+    public void setDb3(String db3) {
+        this.db3 = db3;
+    }
+
+    public String getDb4() {
+        return db4;
+    }
+
+    public void setDb4(String db4) {
+        this.db4 = db4;
+    }
 }
