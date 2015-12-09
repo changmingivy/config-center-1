@@ -27,8 +27,8 @@
     </bean>
 
     <!-- 如果配置冲突以最后一个为准 -->
-    <dconfig:config locations="dconfig/aproject-dconfig.properties,dconfig/bproject-dconfig.properties" namespace="${dconfig.namespace}">
-        <dconfig:locations value="aproject-dconfig.properties,bproject-dconfig.properties"/>
+    <dconfig:config>
+        <dconfig:locations value="dconfig/aproject-dconfig.properties,dconfig/bproject-dconfig.properties"/>
         <!--<dconfig:zk-address value="192.168.8.3:2181"/>-->
         <dconfig:namespace value="${dconfig.namespace}"/>
     </dconfig:config>

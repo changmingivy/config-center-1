@@ -3,7 +3,6 @@ package com.marvinsworld.dconfig.spring.annotation;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.marvinsworld.dconfig.center.RegisterCenter;
-import com.marvinsworld.dconfig.common.ZkUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,11 +68,11 @@ public class DConfigAnnotationProcessor extends ApplicationObjectSupport impleme
             if (annotation != null) {
                 String key = annotation.value();
 
-                try {
-                    ZkUtils.getValue(client, ZkUtils.parseKey(key));
-                } catch (Exception e) {
-                    LOGGER.error("Dconfig server communicate error,please check the key {} exits!", key, e);
-                }
+//                try {
+//                    ZkUtils.getValue(client, ZkUtils.parseKey(key));
+//                } catch (Exception e) {
+//                    LOGGER.error("Dconfig server communicate error,please check the key {} exits!", key, e);
+//                }
 
                 if (Strings.isNullOrEmpty(key)) {
                     LOGGER.error("DConfig annotation key must have a name!");
