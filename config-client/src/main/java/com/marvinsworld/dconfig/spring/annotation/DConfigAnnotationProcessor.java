@@ -3,6 +3,8 @@ package com.marvinsworld.dconfig.spring.annotation;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.marvinsworld.dconfig.center.RegisterCenter;
+import com.marvinsworld.dconfig.listener.ZkNodeListener;
+import com.marvinsworld.dconfig.spring.utils.SpringContextUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +58,9 @@ public class DConfigAnnotationProcessor extends ApplicationObjectSupport impleme
 
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         parseFields(bean, bean.getClass().getDeclaredFields());
+
+        ZkNodeListener zkNodeListener = SpringContextUtils.getBean(ZkNodeListener.class);
+        System.out.println(zkNodeListener);
         return bean;
     }
 

@@ -13,6 +13,9 @@
 
     <!-- mvc controller -->
     <context:annotation-config/>
+    <bean id="SpringContextUtils" class="com.marvinsworld.dconfig.spring.utils.SpringContextUtils" />
+    <bean id="zkNodeListener" class="com.marvinsworld.dconfig.listener.ZkNodeListener" />
+
     <context:component-scan base-package="com.a.project"/>
     <context:component-scan base-package="com.b.project"/>
 
