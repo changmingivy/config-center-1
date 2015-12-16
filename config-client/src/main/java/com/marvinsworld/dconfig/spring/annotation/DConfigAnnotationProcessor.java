@@ -2,9 +2,8 @@ package com.marvinsworld.dconfig.spring.annotation;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import com.marvinsworld.dconfig.center.RegisterCenter;
+import com.marvinsworld.dconfig.cache.DconfigPathCache;
 import com.marvinsworld.dconfig.listener.ZkNodeListener;
-import com.marvinsworld.dconfig.spring.utils.SpringContextUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +16,7 @@ import org.springframework.util.ReflectionUtils;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Description:.
@@ -52,15 +52,15 @@ public class DConfigAnnotationProcessor extends ApplicationObjectSupport impleme
             }
         }
 
-        client = RegisterCenter.createClient();
-        client.start();
+        client = ZkNodeListener.createClient("192.168.8.3:2181", namespace);
+        ZkNodeListener.addListener(client,"/config-center/param");
     }
 
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         parseFields(bean, bean.getClass().getDeclaredFields());
 
-        ZkNodeListener zkNodeListener = SpringContextUtils.getBean(ZkNodeListener.class);
-        System.out.println(zkNodeListener);
+//        ZkNodeListener zkNodeListener = SpringContextUtils.getBean(ZkNodeListener.class);
+//        System.out.println(zkNodeListener);
         return bean;
     }
 
@@ -72,6 +72,12 @@ public class DConfigAnnotationProcessor extends ApplicationObjectSupport impleme
             DConfig annotation = AnnotationUtils.getAnnotation(field, DConfig.class);
             if (annotation != null) {
                 String key = annotation.value();
+
+                try {
+                    DconfigPathCache.appendIfAbsent(key, bean.getClass());
+                } catch (ExecutionException e) {
+                    LOGGER.error("Dconfig add the key {} to cache errro!", key, e);
+                }
 
 //                try {
 //                    ZkUtils.getValue(client, ZkUtils.parseKey(key));

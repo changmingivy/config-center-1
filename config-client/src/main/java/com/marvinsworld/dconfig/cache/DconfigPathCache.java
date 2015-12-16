@@ -20,7 +20,7 @@ public class DconfigPathCache {
             new CacheLoader<String, List<Class>>() {
                 @Override
                 public List<Class> load(String key) throws Exception {
-                    return null;
+                    return Lists.newArrayList();
                 }
             }
     );

@@ -12,12 +12,13 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
  */
 public class RegisterCenter {
 
-    public static CuratorFramework createClient() {
-
-        CuratorFramework client = CuratorFrameworkFactory.builder().connectString("192.168.8.3:2181").sessionTimeoutMs(5000)
+    public static CuratorFramework createClient(String zkAddress,String namespace) {
+        CuratorFramework client = CuratorFrameworkFactory.builder().connectString(zkAddress).sessionTimeoutMs(5000)
                 .retryPolicy(new ExponentialBackoffRetry(1000, 3))
+                .namespace(namespace)
                 .build();
 
+        client.start();
         return client;
     }
 }

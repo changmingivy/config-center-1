@@ -22,9 +22,11 @@ public class AProjectServiceTest {
     private AProjectService aProjectService;
 
     @Test
-    public void testbuildFields() {
+    public void testbuildFields() throws InterruptedException {
 
         System.out.println("db1 = " + aProjectService.getDb1());
         System.out.println("db2 = " + aProjectService.getDb2());
+
+        Thread.sleep(10000);
     }
 }
