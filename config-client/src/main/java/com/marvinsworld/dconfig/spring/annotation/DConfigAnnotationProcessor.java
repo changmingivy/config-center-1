@@ -53,7 +53,11 @@ public class DConfigAnnotationProcessor extends ApplicationObjectSupport impleme
         }
 
         client = ZkNodeListener.createClient("192.168.8.3:2181", namespace);
-        ZkNodeListener.addListener(client,"/config-center/param");
+        try {
+            ZkNodeListener.listenTreeCache(client,"/");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {

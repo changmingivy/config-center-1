@@ -27,6 +27,6 @@ public class AProjectServiceTest {
         System.out.println("db1 = " + aProjectService.getDb1());
         System.out.println("db2 = " + aProjectService.getDb2());
 
-        Thread.sleep(10000);
+        Thread.sleep(200000);
     }
 }
