@@ -8,7 +8,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>config-home</artifactId>
+    <artifactId>config-web</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>config-home</name>
@@ -24,6 +24,6 @@
     </dependencies>
 
     <build>
-        <finalName>config-home</finalName>
+        <finalName>config-server-web</finalName>
     </build>
 </project>
