@@ -13,8 +13,8 @@
     <modules>
         <module>config-server</module>
         <module>config-client</module>
-        <module>config-home</module>
-        <module>config-client-home</module>
+        <module>config-server-web</module>
+        <module>config-client-demo</module>
     </modules>
 
     <properties>
