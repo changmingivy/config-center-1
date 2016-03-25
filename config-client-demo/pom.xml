@@ -8,9 +8,9 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>config-client-home</artifactId>
+    <artifactId>config-client-demo</artifactId>
     <packaging>war</packaging>
-    <name>config-client-home</name>
+    <name>config-client-demo</name>
     <url>http://maven.apache.org</url>
 
     <dependencies>
@@ -30,6 +30,6 @@
     </dependencies>
 
     <build>
-        <finalName>config-client-home</finalName>
+        <finalName>config-client-demo</finalName>
     </build>
 </project>

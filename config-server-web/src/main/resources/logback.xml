@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false">
+
+    <property name="log.dir" value="d:/web/logs/config-server-web"/>
+    <property name="stdout-pattern" value="[%p] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t][%c]%C:%L - %m %n"/>
+    <property name="max-history" value="30"/>
+    <property name="max-file-size" value="100MB"/>
+    <property name="encoding" value="UTF-8"/>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${stdout-pattern}</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="config-server-web" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.dir}/config-server-web.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.dir}/config-server-web.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${max-file-size}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+
+            <MaxHistory>${max-history}</MaxHistory>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${stdout-pattern}</pattern>
+            <charset>${encoding}</charset>
+        </encoder>
+    </appender>
+
+
+    <appender name="config-server-web_error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.dir}/config-server-web_error.log</file>
+
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.dir}/config-server-web_error.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${max-file-size}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+
+            <MaxHistory>${max-history}</MaxHistory>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${stdout-pattern}</pattern>
+            <charset>${encoding}</charset>
+        </encoder>
+    </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="console"/>
+        <appender-ref ref="config-server-web"/>
+        <appender-ref ref="config-server-web_error"/>
+    </root>
+</configuration>

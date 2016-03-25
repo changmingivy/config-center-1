@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd"
+       default-autowire="byName">
+
+    <context:component-scan base-package="com.eason.config.web"/>
+
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <context:annotation-config/>
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath:config.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- template view -->
+    <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath" value="/WEB-INF/vm/"/>
+        <property name="velocityProperties">
+            <props>
+                <prop key="input.encoding">UTF-8</prop>
+                <prop key="output.encoding">UTF-8</prop>
+                <prop key="contentType">text/html;charset=UTF-8</prop>
+                <!--<prop key="velocimacro.library">common/macro.vm</prop>-->
+            </props>
+        </property>
+    </bean>
+
+    <bean id="velocityViewResolver" class="com.eason.config.web.utils.CusVelocityLayoutViewResolver">
+        <property name="layoutUrl" value="layout/default.vm"/>
+        <property name="cache" value="false"/>
+        <property name="suffix" value=".vm"/>
+        <property name="exposeSpringMacroHelpers" value="true"/>
+        <property name="dateToolAttribute" value="dateTool"/>
+        <property name="numberToolAttribute" value="numberTool"/>
+        <!-- Merge urlBuilderMap to view context for convenience. You can put your tools which must be thread safe. -->
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="viewResolvers">
+            <list>
+                <ref bean="velocityViewResolver"/>
+            </list>
+        </property>
+        <property name="defaultViews">
+            <list>
+                <!-- for application/json -->
+                <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- JSR-303 support will be detected on classpath and enabled automatically -->
+    <mvc:annotation-driven conversion-service="conversionService">
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes" value="text/plain;charset=UTF-8"/>
+            </bean>
+            <!-- format Date -->
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <property name="dateFormat">
+                            <bean class="java.text.SimpleDateFormat">
+                                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"/>
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="registerDefaultFormatters" value="false"/>
+        <property name="formatterRegistrars">
+            <set>
+                <bean class="org.springframework.format.datetime.DateFormatterRegistrar">
+                    <property name="formatter" ref="dateFormatter">
+                    </property>
+                </bean>
+            </set>
+        </property>
+    </bean>
+
+    <bean id="dateFormatter" class="org.springframework.format.datetime.DateFormatter">
+        <property name="pattern" value="yyyy-MM-dd HH:mm:ss"/>
+    </bean>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="cookieName" value="_clientlocale"/>
+        <property name="defaultLocale" value="zh_CN"/>
+        <property name="cookieMaxAge" value="2147483647"/>
+    </bean>
+
+    <!-- Access resource bundles with the specified basename -->
+    <!--<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">-->
+        <!--<property name="basenames" value="/WEB-INF/i18n"/>-->
+        <!--<property name="cacheSeconds" value="5"/>-->
+    <!--</bean>-->
+
+    <bean id="velocityTools" class="java.util.HashMap">
+        <constructor-arg>
+            <map>
+                <entry key="stringUtils">
+                    <bean class="org.apache.commons.lang.StringUtils"/>
+                </entry>
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="maxUploadSize" value="10485760000"/>
+        <property name="maxInMemorySize" value="40960"/>
+    </bean>
+
+    <mvc:resources location="/assets/" mapping="/assets/**" cache-period="864000"/>
+
+    <mvc:default-servlet-handler/>
+
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="defaultContentType" value="text/html"/>
+
+        <property name="ignoreAcceptHeader" value="true"/>
+        <property name="mediaTypes">
+            <map>
+                <entry key="xml" value="application/xml"/>
+                <entry key="json" value="application/json"/>
+            </map>
+        </property>
+    </bean>
+
+</beans>
