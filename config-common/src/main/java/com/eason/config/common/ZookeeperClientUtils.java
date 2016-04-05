@@ -2,7 +2,6 @@ package com.eason.config.common;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
-import org.apache.curator.framework.api.GetChildrenBuilder;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
 import java.util.List;
@@ -26,10 +25,17 @@ public class ZookeeperClientUtils {
         return client;
     }
 
+    /**
+     * 获取所有的命名空间的名称集合
+     *
+     * @param zkAddress zookeeper地址
+     */
     public static List<String> getAllNamespaces(String zkAddress) throws Exception {
         CuratorFramework client = createClient(zkAddress, "");
-        GetChildrenBuilder builder = client.getChildren();
-
-        return builder.forPath("/");
+        return client.getChildren().forPath("/");
     }
+
+
+
+
 }
