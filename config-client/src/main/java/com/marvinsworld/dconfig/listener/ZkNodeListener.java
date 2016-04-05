@@ -74,7 +74,7 @@ public class ZkNodeListener {
     }
 
     public static void main(String[] args) throws Exception {
-        CuratorFramework client = ZkNodeListener.createClient("192.168.8.3:2181", "config-center");
+        CuratorFramework client = ZkNodeListener.createClient("10.12.2.124", "config-center");
 
         final NodeCache cache = new NodeCache(client, "/param", false);
         cache.start();
