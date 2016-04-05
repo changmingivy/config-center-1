@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<!-- basic styles -->
 	<link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
-	<link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
+##	<link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
 	<!--[if IE 7]>
 	  <link rel="stylesheet" href="$!homeModule.getTarget('/assets/css/font-awesome-ie7.min.css')" />
 	<![endif]-->
@@ -40,9 +40,9 @@
 	<script src="$!homeModule.getTarget('/assets/js/jquery.form.js')"></script>
 	<script src="$!homeModule.getTarget('/assets/js/jquery.flexbox.js')"></script>
     <!--[if !IE]> -->
-    <script type="text/javascript">
-    	window.jQuery || document.write("<script src='/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
-    </script>
+##    <script type="text/javascript">
+##    	window.jQuery || document.write("<script src='/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+##    </script>
     <!-- <![endif]-->
     
     <!--[if IE]>

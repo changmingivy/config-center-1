@@ -86,7 +86,7 @@
         onNodeUnselected: function (event, node) {
             console.log("unchecked"+node.text)
         }
-        ,enableLinks: true
+        //,enableLinks: true
 		//,showTags:true
     });
 
