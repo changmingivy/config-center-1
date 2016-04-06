@@ -41,6 +41,21 @@
     <br/>
 </div>
 <script>
+    jQuery.get("/config-center/data",function(data){
+        console.log(data);
+        var tree = $("#treeview12").treeview({
+            data: data,
+            onNodeSelected: function (event, node) {
+                console.log("checked"+node.text+"--"+node.href+"--"+node.id);
+            },
+            onNodeUnselected: function (event, node) {
+                console.log("unchecked"+node.text)
+            }
+            //,enableLinks: true
+            //,showTags:true
+        });
+    })
+
     var json = [
         {
             text: "Parent 1",
@@ -78,17 +93,17 @@
 
 	//json = JSON.stringify(json)
 
-    var tree = $("#treeview12").treeview({
-        data: json,
-        onNodeSelected: function (event, node) {
-			console.log("checked"+node.text+"--"+node.href+"--"+node.id);
-        },
-        onNodeUnselected: function (event, node) {
-            console.log("unchecked"+node.text)
-        }
-        //,enableLinks: true
-		//,showTags:true
-    });
+//    var tree = $("#treeview12").treeview({
+//        data: json,
+//        onNodeSelected: function (event, node) {
+//			console.log("checked"+node.text+"--"+node.href+"--"+node.id);
+//        },
+//        onNodeUnselected: function (event, node) {
+//            console.log("unchecked"+node.text)
+//        }
+//        //,enableLinks: true
+//		//,showTags:true
+//    });
 
 
 </script>

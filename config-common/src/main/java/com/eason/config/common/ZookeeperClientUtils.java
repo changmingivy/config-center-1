@@ -1,5 +1,6 @@
 package com.eason.config.common;
 
+import com.google.common.collect.Lists;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
@@ -26,16 +27,42 @@ public class ZookeeperClientUtils {
     }
 
     /**
-     * »ñÈ¡ËùÓĞµÄÃüÃû¿Õ¼äµÄÃû³Æ¼¯ºÏ
+     * è·å–æ‰€æœ‰çš„å‘½åç©ºé—´çš„åç§°é›†åˆ
      *
-     * @param zkAddress zookeeperµØÖ·
+     * @param zkAddress zookeeperåœ°å€
      */
     public static List<String> getAllNamespaces(String zkAddress) throws Exception {
         CuratorFramework client = createClient(zkAddress, "");
         return client.getChildren().forPath("/");
     }
 
+    public static String getValue(CuratorFramework client, String path) throws Exception {
+        return new String(client.getData().forPath(path));
+    }
 
+    /**
+     * è½¬æ¢æˆèŠ‚ç‚¹
+     *
+     * @param path zookeeperè·¯å¾„
+     */
+    public static ConfigNode getAllChildrenNodes(CuratorFramework client, String path) throws Exception {
+        List<String> childrenPath = client.getChildren().forPath(path);
 
+        List<ConfigNode> children = Lists.newArrayList();
+        for (String childPath : childrenPath) {
+            children.add(getAllChildrenNodes(client, ZookeeperPathUtils.buildFullPath(path, childPath)));
+        }
+
+        ConfigNode result = new ConfigNode();
+        result.setText(path);
+        result.setValue(getValue(client, path));
+        result.setNodes(children);
+
+        return result;
+    }
+
+    public static ConfigNode getAllChildrenNodesFromRoot(CuratorFramework client) throws Exception {
+        return getAllChildrenNodes(client, ZookeeperPathUtils.ROOT);
+    }
 
 }

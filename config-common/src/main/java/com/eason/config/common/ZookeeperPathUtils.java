@@ -1,6 +1,6 @@
-package com.marvinsworld.dconfig.common;
+package com.eason.config.common;
 
-import org.apache.curator.framework.CuratorFramework;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
 /**
@@ -9,7 +9,7 @@ import org.springframework.util.Assert;
  * @author Marvinsworld
  * @since 2015/12/6 13:44
  */
-public class ZkUtils {
+public class ZookeeperPathUtils {
     public static final String ROOT = "/";
     public static final String SEPERATE = "/";
 
@@ -30,7 +30,13 @@ public class ZkUtils {
         return path.startsWith(ROOT) ? path : (ROOT + path);
     }
 
-    public static String getValue(CuratorFramework client, String path) throws Exception {
-        return new String(client.getData().forPath(path));
+    /**
+     * 组装完整路径
+     * Note:如果是根(/),则不拼接分隔符
+     */
+    public static String buildFullPath(String parentFullPath, String childPath) {
+        Assert.notNull(parentFullPath, "Param[parentFullPath] is not null");
+        Assert.isTrue(parentFullPath.startsWith(ROOT), "Param[parentFullPath] must begin with '/'");
+        return parentFullPath + (StringUtils.equals(parentFullPath, ROOT) ? "" : SEPERATE) + childPath;
     }
 }

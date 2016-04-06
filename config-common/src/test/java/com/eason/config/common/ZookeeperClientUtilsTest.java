@@ -1,6 +1,6 @@
 package com.eason.config.common;
 
-import java.util.List;
+import org.apache.curator.framework.CuratorFramework;
 
 /**
  * Description:.
@@ -12,7 +12,14 @@ import java.util.List;
 public class ZookeeperClientUtilsTest {
 
     public static void main(String[] args) throws Exception {
-        List<String> result = ZookeeperClientUtils.getAllNamespaces("10.12.2.124");
-        System.out.println(result);
+//        List<String> result = ZookeeperClientUtils.getAllNamespaces("10.12.2.124");
+//        System.out.println(result);
+
+        CuratorFramework client = ZookeeperClientUtils.createClient("10.12.2.124", "");
+
+        ConfigNode node = ZookeeperClientUtils.getAllChildrenNodes(client,"/");
+
+        System.out.println(node);
+        //ZookeeperClientUtils.getAllChildrenNodes("10.12.2.124","")
     }
 }

@@ -1,5 +1,9 @@
 package com.eason.config.web;
 
+import com.eason.config.common.ConfigNode;
+import com.eason.config.common.ZookeeperClientUtils;
+import com.google.common.collect.Lists;
+import org.apache.curator.framework.CuratorFramework;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -9,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Description:.
@@ -30,9 +35,19 @@ public class ConfigServerController {
 
     @RequestMapping(value = "/data", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public Object data(HttpServletRequest request, Model model) {
+    public List<ConfigNode> data(HttpServletRequest request, Model model) {
+        CuratorFramework client = ZookeeperClientUtils.createClient("10.12.2.124", "");
 
+        try {
+            ConfigNode result = ZookeeperClientUtils.getAllChildrenNodesFromRoot(client);
 
-        return "/config-center/list";
+            List<ConfigNode> list =  Lists.newArrayList();
+            list.add(result);
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
