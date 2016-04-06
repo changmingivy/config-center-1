@@ -43,19 +43,19 @@ public class ZookeeperClientUtils {
     /**
      * 转换成节点
      *
-     * @param path zookeeper路径
+     * @param fullPath zookeeper全路径
      */
-    public static ConfigNode getAllChildrenNodes(CuratorFramework client, String path) throws Exception {
-        List<String> childrenPath = client.getChildren().forPath(path);
+    public static ConfigNode getAllChildrenNodes(CuratorFramework client, String fullPath) throws Exception {
+        List<String> childrenPath = client.getChildren().forPath(fullPath);
 
         List<ConfigNode> children = Lists.newArrayList();
         for (String childPath : childrenPath) {
-            children.add(getAllChildrenNodes(client, ZookeeperPathUtils.buildFullPath(path, childPath)));
+            children.add(getAllChildrenNodes(client, ZookeeperPathUtils.buildFullPath(fullPath, childPath)));
         }
 
         ConfigNode result = new ConfigNode();
-        result.setText(path);
-        result.setValue(getValue(client, path));
+        result.setText(ZookeeperPathUtils.splitLastPath(fullPath));
+        result.setValue(getValue(client, fullPath));
         result.setNodes(children);
 
         return result;

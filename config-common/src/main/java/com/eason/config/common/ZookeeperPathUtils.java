@@ -39,4 +39,19 @@ public class ZookeeperPathUtils {
         Assert.isTrue(parentFullPath.startsWith(ROOT), "Param[parentFullPath] must begin with '/'");
         return parentFullPath + (StringUtils.equals(parentFullPath, ROOT) ? "" : SEPERATE) + childPath;
     }
+
+    /**
+     * 截取最后一个'/'之后的路径
+     */
+    public static String splitLastPath(String fullPath) {
+        Assert.notNull(fullPath, "Param[fullPath] is not null");
+        Assert.isTrue(fullPath.startsWith(ROOT), "Param[fullPath] must begin with '/'");
+
+        if (StringUtils.equals(fullPath, ROOT)) {
+            return ROOT;
+        }
+
+        String[] paths = fullPath.split(SEPERATE);
+        return paths[paths.length - 1];
+    }
 }

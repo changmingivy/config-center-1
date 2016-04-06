@@ -14,8 +14,27 @@ public class ConfigNode implements Serializable {
     private static final long serialVersionUID = 8417127217489223901L;
 
     private String id;
+
+    /**
+     * 路径,简化
+     */
     private String text;
+
+    /**
+     * 全路径
+     */
+    private String fullPath;
+
+    /**
+     * 存储的内容
+     */
     private String value;
+
+    /**
+     * 用于存储直接子节点数量
+     */
+    private String tags;
+
 
     private List<ConfigNode> nodes;
 
@@ -41,6 +60,22 @@ public class ConfigNode implements Serializable {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getFullPath() {
+        return fullPath;
+    }
+
+    public void setFullPath(String fullPath) {
+        this.fullPath = fullPath;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
     public List<ConfigNode> getNodes() {
