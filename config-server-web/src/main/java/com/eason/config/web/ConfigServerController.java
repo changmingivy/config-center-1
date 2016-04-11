@@ -28,15 +28,15 @@ public class ConfigServerController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
 
-    @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
-    public String list(HttpServletRequest request, Model model) {
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
+    public String init(HttpServletRequest request, Model model) {
         return "/config-center/list";
     }
 
     @RequestMapping(value = "/data", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public List<ConfigNode> data(HttpServletRequest request, Model model) {
-        CuratorFramework client = ZookeeperClientUtils.createClient("10.12.2.124", "");
+        CuratorFramework client = ZookeeperClientUtils.createClient("10.12.2.181", "");
 
         try {
             ConfigNode result = ZookeeperClientUtils.getAllChildrenNodesFromRoot(client);
@@ -50,4 +50,15 @@ public class ConfigServerController {
 
         return null;
     }
+
+//    @RequestMapping(value = "/detail")
+//    @ResponseBody
+//    public List<ConfigNode> detail(HttpServletRequest request, String fullPath) {
+//        CuratorFramework client = ZookeeperClientUtils.createClient("10.12.2.181", "");
+//
+//        //ZookeeperClientUtils
+//
+//
+//        return null;
+//    }
 }

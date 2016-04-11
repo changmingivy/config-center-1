@@ -13,12 +13,17 @@ import java.util.List;
 public class ConfigNode implements Serializable {
     private static final long serialVersionUID = 8417127217489223901L;
 
-    private String id;
-
     /**
      * 路径,简化
      */
     private String text;
+
+    /**
+     * 用于存储直接子节点数量
+     */
+    private String[] tags;
+
+    private String id;
 
     /**
      * 全路径
@@ -31,10 +36,9 @@ public class ConfigNode implements Serializable {
     private String value;
 
     /**
-     * 用于存储直接子节点数量
+     * 子节点数量(包括自身)
      */
-    private String tags;
-
+    private Integer childrenNum;
 
     private List<ConfigNode> nodes;
 
@@ -70,11 +74,11 @@ public class ConfigNode implements Serializable {
         this.fullPath = fullPath;
     }
 
-    public String getTags() {
+    public String[] getTags() {
         return tags;
     }
 
-    public void setTags(String tags) {
+    public void setTags(String[] tags) {
         this.tags = tags;
     }
 
@@ -84,5 +88,13 @@ public class ConfigNode implements Serializable {
 
     public void setNodes(List<ConfigNode> nodes) {
         this.nodes = nodes;
+    }
+
+    public Integer getChildrenNum() {
+        return childrenNum;
+    }
+
+    public void setChildrenNum(Integer childrenNum) {
+        this.childrenNum = childrenNum;
     }
 }

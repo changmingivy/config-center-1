@@ -16,95 +16,44 @@
 
 <div class="container">
     <div class="row">
-        <hr>
-        <h2>Data</h2>
-
         <div class="col-sm-4">
-            <h2>JSON Data</h2>
+            <h2>树状结构</h2>
 
-            <div id="treeview12" class=""></div>
+            <div id="treeview" class=""></div>
         </div>
-        <div class="col-sm-4">
-            <h2></h2>
+        <div class="col-sm-8">
+            <h2>详细内容</h2>
 
-            <div id="treeview13" class=""></div>
-        </div>
-        <div class="col-sm-4">
-            <h2></h2>
-
-            <div id="treeview14"></div>
+            <div id="detailDiv" class=""></div>
         </div>
     </div>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
 </div>
 <script>
-    jQuery.get("/config-center/data",function(data){
+    jQuery.get("/config-center/data", function (data) {
         console.log(data);
-        var tree = $("#treeview12").treeview({
+        var tree = $("#treeview").treeview({
             data: data,
             onNodeSelected: function (event, node) {
-                console.log("checked"+node.text+"--"+node.href+"--"+node.id);
+                //showDetail(event, node);
+                console.log("checked" + node.text + "--" + node.href + "--" + node.id+"--"+node.fullPath);
             },
             onNodeUnselected: function (event, node) {
-                console.log("unchecked"+node.text)
+                console.log("unchecked" + node.text)
             }
             //,enableLinks: true
-            //,showTags:true
+            , showTags: true
         });
     })
 
-    var json = [
-        {
-            text: "Parent 1",
-			id:"哈哈",//自定义
-            "nodes": [
-                {
-                    "text": "Child 1",
-                    "nodes": [
-                        {
-                            "text": "Grandchild 1"
-                        },
-                        {
-                            "text": "Grandchild 2"
-                        }
-                    ]
-                },
-                {
-                    "text": "Child 2"
-                }
-            ]
-        },
-        {
-            "text": "Parent 2"
-        },
-        {
-            "text": "Parent 3"
-        },
-        {
-            "text": "Parent 4"
-        },
-        {
-            "text": "Parent 5"
-        }
-    ];
-
-	//json = JSON.stringify(json)
-
-//    var tree = $("#treeview12").treeview({
-//        data: json,
-//        onNodeSelected: function (event, node) {
-//			console.log("checked"+node.text+"--"+node.href+"--"+node.id);
-//        },
-//        onNodeUnselected: function (event, node) {
-//            console.log("unchecked"+node.text)
-//        }
-//        //,enableLinks: true
-//		//,showTags:true
-//    });
-
+    /**
+     * 显示详情
+     */
+//    function showDetail(event, node) {
+//        console.log("fullPath=" + node.fullPath)
+//        $.get("/config-center/detail", {fullPath: node.fullPath}, function (data) {
+//            console.log(data);
+//        })
+//    }
 
 </script>
 </body>

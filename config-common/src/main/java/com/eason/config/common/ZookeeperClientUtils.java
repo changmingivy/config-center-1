@@ -48,16 +48,26 @@ public class ZookeeperClientUtils {
     public static ConfigNode getAllChildrenNodes(CuratorFramework client, String fullPath) throws Exception {
         List<String> childrenPath = client.getChildren().forPath(fullPath);
 
+        Integer childNodeNum = 0;
+
         List<ConfigNode> children = Lists.newArrayList();
         for (String childPath : childrenPath) {
-            children.add(getAllChildrenNodes(client, ZookeeperPathUtils.buildFullPath(fullPath, childPath)));
+            ConfigNode childNode = getAllChildrenNodes(client, ZookeeperPathUtils.buildFullPath(fullPath, childPath));
+
+            childNodeNum += childNode.getChildrenNum();
+            children.add(childNode);
         }
 
         ConfigNode result = new ConfigNode();
         result.setText(ZookeeperPathUtils.splitLastPath(fullPath));
+        result.setFullPath(fullPath);
         result.setValue(getValue(client, fullPath));
-        result.setNodes(children);
 
+        //计算子节点数量(包括自身)
+        result.setChildrenNum(childNodeNum + 1);
+        result.setTags(new String[]{String.valueOf(result.getChildrenNum())});
+
+        result.setNodes(children);
         return result;
     }
 
