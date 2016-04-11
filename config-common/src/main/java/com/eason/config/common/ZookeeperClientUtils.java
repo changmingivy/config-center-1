@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.zookeeper.data.Stat;
 
 import java.util.List;
 
@@ -38,6 +39,10 @@ public class ZookeeperClientUtils {
 
     public static String getValue(CuratorFramework client, String path) throws Exception {
         return new String(client.getData().forPath(path));
+    }
+
+    public static Stat getStat(CuratorFramework client, String path) throws Exception {
+        return client.checkExists().forPath(path);
     }
 
     /**

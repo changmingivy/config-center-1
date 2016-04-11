@@ -34,26 +34,26 @@
         var tree = $("#treeview").treeview({
             data: data,
             onNodeSelected: function (event, node) {
-                //showDetail(event, node);
-                console.log("checked" + node.text + "--" + node.href + "--" + node.id+"--"+node.fullPath);
+                showDetail(event, node);
+                //console.log("checked" + node.text + "--" + node.href + "--" + node.id+"--"+node.fullPath);
             },
             onNodeUnselected: function (event, node) {
-                console.log("unchecked" + node.text)
+                //console.log("unchecked" + node.text)
             }
             //,enableLinks: true
             , showTags: true
         });
-    })
+    });
 
-    /**
-     * 显示详情
-     */
-//    function showDetail(event, node) {
-//        console.log("fullPath=" + node.fullPath)
-//        $.get("/config-center/detail", {fullPath: node.fullPath}, function (data) {
-//            console.log(data);
-//        })
-//    }
+	//显示详情
+    function showDetail(event, node) {
+        //console.log("fullPath=" + node.fullPath)
+        console.log("value=" + node.value)
+        jQuery.get("/config-center/detail", {fullPath: node.fullPath}, function (data) {
+            console.log(data);
+        });
+    }
+
 
 </script>
 </body>
