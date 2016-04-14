@@ -22,20 +22,40 @@
             <div id="treeview" class=""></div>
         </div>
         <div class="col-sm-8">
-            <h2>详细内容</h2>
+            <h2>详情</h2>
 
-            <div id="detailDiv" class=""></div>
+            <div id="detailDiv" class="">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">路径</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="inputFullPath" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">值</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="inputValue">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button id="btnSubmit" type="button" class="btn btn-default">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 <script>
     jQuery.get("/config-center/data", function (data) {
-        console.log(data);
         var tree = $("#treeview").treeview({
             data: data,
             onNodeSelected: function (event, node) {
                 showDetail(event, node);
-                //console.log("checked" + node.text + "--" + node.href + "--" + node.id+"--"+node.fullPath);
             },
             onNodeUnselected: function (event, node) {
                 //console.log("unchecked" + node.text)
@@ -45,11 +65,11 @@
         });
     });
 
-	//显示详情
+    //显示详情
     function showDetail(event, node) {
-        //console.log("fullPath=" + node.fullPath)
-        console.log("value=" + node.value)
         jQuery.get("/config-center/detail", {fullPath: node.fullPath}, function (data) {
+            jQuery("#inputFullPath").val(data.fullPath);
+            jQuery("#inputValue").val(data.value);
             console.log(data);
         });
     }

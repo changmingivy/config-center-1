@@ -1,10 +1,10 @@
 package com.eason.config.web;
 
+import com.eason.config.common.BaseConfigNode;
 import com.eason.config.common.ConfigNode;
 import com.eason.config.common.ZookeeperClientUtils;
 import com.google.common.collect.Lists;
 import org.apache.curator.framework.CuratorFramework;
-import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -42,7 +42,7 @@ public class ConfigServerController {
         try {
             ConfigNode result = ZookeeperClientUtils.getAllChildrenNodesFromRoot(client);
 
-            List<ConfigNode> list =  Lists.newArrayList();
+            List<ConfigNode> list = Lists.newArrayList();
             list.add(result);
             return list;
         } catch (Exception e) {
@@ -54,18 +54,26 @@ public class ConfigServerController {
 
     @RequestMapping(value = "/detail", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public Stat detail(HttpServletRequest request, String fullPath) {
-        CuratorFramework client = ZookeeperClientUtils.createClient("10.12.2.181", "");
+    public BaseConfigNode detail(HttpServletRequest request, String fullPath) {
+        BaseConfigNode result = new BaseConfigNode();
 
+        CuratorFramework client = ZookeeperClientUtils.createClient("10.12.2.181", "");
         try {
-            Stat stat = client.checkExists().forPath(fullPath);
-            System.out.println(stat);
-            return stat;
+            result.setValue(ZookeeperClientUtils.getValue(client, fullPath));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        result.setFullPath(fullPath);
 
-        return null;
+//        try {
+//            Stat stat = client.checkExists().forPath(fullPath);
+//            System.out.println(stat);
+//            return stat;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+        return result;
     }
 }
