@@ -9,7 +9,10 @@
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
     <script src="/assets/js/json2.js"></script>
     <script src="/assets/js/jquery.min.js"></script>
+
+    <script src="/assets/js/bootstrap.min.js"></script>
     <script src="/assets/js/bootstrap-treeview.min.js"></script>
+    <script src="/assets/js/bootbox.min.js"></script>
 </head>
 <body>
 <span>启动成功</span>
@@ -51,6 +54,12 @@
     </div>
 </div>
 <script>
+
+    jQuery(function ($) {
+        btnSubmitListen();
+    })
+
+
     jQuery.get("/config-center/data", function (data) {
         var tree = $("#treeview").treeview({
             data: data,
@@ -68,10 +77,20 @@
     //显示详情
     function showDetail(event, node) {
         jQuery.get("/config-center/detail", {fullPath: node.fullPath}, function (data) {
-            jQuery("#inputFullPath").val(data.fullPath);
-            jQuery("#inputValue").val(data.value);
+            $("#inputFullPath").val(data.fullPath);
+            $("#inputValue").val(data.value);
             console.log(data);
         });
+    }
+
+    //监听提交按钮点击事件
+    function btnSubmitListen() {
+        $("#btnSubmit").click(function () {
+            var params = {fullPath: $("#inputFullPath").val(), value: $("#inputValue").val()};
+            jQuery.post("/config-center/update", params, function (data) {
+                bootbox.alert("修改成功");
+            });
+        })
     }
 
 

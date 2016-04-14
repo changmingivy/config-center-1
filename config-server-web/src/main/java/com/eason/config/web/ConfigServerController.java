@@ -5,6 +5,7 @@ import com.eason.config.common.ConfigNode;
 import com.eason.config.common.ZookeeperClientUtils;
 import com.google.common.collect.Lists;
 import org.apache.curator.framework.CuratorFramework;
+import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -65,14 +66,22 @@ public class ConfigServerController {
         }
 
         result.setFullPath(fullPath);
+        return result;
+    }
 
-//        try {
-//            Stat stat = client.checkExists().forPath(fullPath);
-//            System.out.println(stat);
-//            return stat;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+    @RequestMapping(value = "/update", method = {RequestMethod.POST})
+    @ResponseBody
+    public BaseConfigNode update(HttpServletRequest request, BaseConfigNode configNode) {
+        BaseConfigNode result = new BaseConfigNode();
+
+        CuratorFramework client = ZookeeperClientUtils.createClient("10.12.2.181", "");
+        try {
+            Stat stat = client.setData().forPath(configNode.getFullPath(),configNode.getValue().getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        result.setFullPath("111");
 
         return result;
     }
