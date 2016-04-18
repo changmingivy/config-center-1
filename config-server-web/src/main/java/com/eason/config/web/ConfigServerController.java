@@ -38,7 +38,7 @@ public class ConfigServerController {
     @RequestMapping(value = "/data", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public List<ConfigNode> data(HttpServletRequest request, Model model) {
-        CuratorFramework client = ZookeeperClientUtils.createClient("10.12.2.181", "");
+        CuratorFramework client = ZookeeperClientUtils.createClient("10.12.4.50", "");
 
         try {
             ConfigNode result = ZookeeperClientUtils.getAllChildrenNodesFromRoot(client);
