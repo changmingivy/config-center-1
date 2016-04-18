@@ -16,11 +16,11 @@
     </appender>
 
     <!-- log file default -->
-    <appender name="config-center" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.dir}/config-center.log</file>
+    <appender name="config-client-demo" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.dir}/config-client-demo.log</file>
         <!-- rollover daily -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.dir}/config-center.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <fileNamePattern>${log.dir}/config-client-demo.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!-- or whenever the file size reaches 20MB -->
                 <maxFileSize>${max-file-size}</maxFileSize>
@@ -36,7 +36,7 @@
     </appender>
 
     <!-- log file error -->
-    <appender name="config-center_error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="config-client-demo_error" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
         </filter>
@@ -45,10 +45,10 @@
             <charset>${encoding}</charset>
         </encoder>
 
-        <file>${log.dir}/config-center_error.log</file>
+        <file>${log.dir}/config-client-demo_error.log</file>
         <!-- rollover daily -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.dir}/config-center_error.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <fileNamePattern>${log.dir}/config-client-demo_error.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!-- or whenever the file size reaches 20MB -->
                 <maxFileSize>${max-file-size}</maxFileSize>
@@ -66,7 +66,7 @@
 
     <root level="DEBUG">
         <appender-ref ref="console"/>
-        <appender-ref ref="config-center"/>
-        <appender-ref ref="config-center_error"/>
+        <appender-ref ref="config-client-demo"/>
+        <appender-ref ref="config-client-demo_error"/>
     </root>
 </configuration>
