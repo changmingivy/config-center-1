@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>#if($title)$title - 管理系统#else 管理系统 #end</title>
+	</head>
+<body class="no-skin">
+    $screen_content
+</body>
+</html>

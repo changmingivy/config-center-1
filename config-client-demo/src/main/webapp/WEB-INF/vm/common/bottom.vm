@@ -1,0 +1,6 @@
+<div class="erp-footer">
+        版权所有 物美商业集团
+</div>
+
+<script src="$!homeModule.getTarget('/assets/js/jquery.cookie.js')"></script>
+<script src="$!erpModule.getTarget('/assets/js/erp/erp-menu.js?')$!erpModule" id="erp_user_menu_js"></script>

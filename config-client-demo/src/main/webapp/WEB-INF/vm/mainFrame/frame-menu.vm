@@ -1,0 +1,12 @@
+<div class="sidebar erp-sub-nav" id="sidebar">
+    <script type="text/javascript">
+        //try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+    </script>
+    <!--菜单开始-->
+    <ul class="nav nav-list" id="menu_nav">
+        <li>
+          &nbsp;&nbsp;菜单加载中…
+        </li>
+    </ul>
+    <!-- /.nav-list --><!--/.菜单结束-->
+</div>
