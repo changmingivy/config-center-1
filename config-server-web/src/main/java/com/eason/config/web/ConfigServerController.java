@@ -30,6 +30,8 @@ public class ConfigServerController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
 
+    private String ip = "10.12.4.50";
+
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
     public String init(HttpServletRequest request, Model model) {
         return "/config-center/list";
@@ -38,7 +40,7 @@ public class ConfigServerController {
     @RequestMapping(value = "/data", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public List<ConfigNode> data(HttpServletRequest request, Model model) {
-        CuratorFramework client = ZookeeperClientUtils.createClient("10.12.4.50", "");
+        CuratorFramework client = ZookeeperClientUtils.createClient(ip, "");
 
         try {
             ConfigNode result = ZookeeperClientUtils.getAllChildrenNodesFromRoot(client);
@@ -58,7 +60,7 @@ public class ConfigServerController {
     public BaseConfigNode detail(HttpServletRequest request, String fullPath) {
         BaseConfigNode result = new BaseConfigNode();
 
-        CuratorFramework client = ZookeeperClientUtils.createClient("10.12.2.181", "");
+        CuratorFramework client = ZookeeperClientUtils.createClient(ip, "");
         try {
             result.setValue(ZookeeperClientUtils.getValue(client, fullPath));
         } catch (Exception e) {
@@ -74,9 +76,9 @@ public class ConfigServerController {
     public BaseConfigNode update(HttpServletRequest request, BaseConfigNode configNode) {
         BaseConfigNode result = new BaseConfigNode();
 
-        CuratorFramework client = ZookeeperClientUtils.createClient("10.12.2.181", "");
+        CuratorFramework client = ZookeeperClientUtils.createClient(ip, "");
         try {
-            Stat stat = client.setData().forPath(configNode.getFullPath(),configNode.getValue().getBytes());
+            Stat stat = client.setData().forPath(configNode.getFullPath(), configNode.getValue().getBytes());
         } catch (Exception e) {
             e.printStackTrace();
         }
