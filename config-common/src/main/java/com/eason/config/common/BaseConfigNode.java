@@ -19,6 +19,11 @@ public class BaseConfigNode implements Serializable {
     private String fullPath;
 
     /**
+     *
+     */
+    private String shortPath;
+
+    /**
      * 存储的内容
      */
     private String value;
@@ -37,5 +42,13 @@ public class BaseConfigNode implements Serializable {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getShortPath() {
+        return shortPath;
+    }
+
+    public void setShortPath(String shortPath) {
+        this.shortPath = shortPath;
     }
 }

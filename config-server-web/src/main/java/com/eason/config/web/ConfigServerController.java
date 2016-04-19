@@ -1,6 +1,7 @@
 package com.eason.config.web;
 
 import com.eason.config.common.BaseConfigNode;
+import com.eason.config.common.ChildConfigNode;
 import com.eason.config.common.ConfigNode;
 import com.eason.config.common.ZookeeperClientUtils;
 import com.google.common.collect.Lists;
@@ -37,6 +38,11 @@ public class ConfigServerController {
         return "/config-center/list";
     }
 
+    @RequestMapping(value = "/view", method = {RequestMethod.GET, RequestMethod.POST})
+    public String view(HttpServletRequest request, Model model) {
+        return "/config-center/view";
+    }
+
     @RequestMapping(value = "/data", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public List<ConfigNode> data(HttpServletRequest request, Model model) {
@@ -68,6 +74,39 @@ public class ConfigServerController {
         }
 
         result.setFullPath(fullPath);
+        return result;
+    }
+
+    @RequestMapping(value = "/edit", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public BaseConfigNode edit(HttpServletRequest request, ChildConfigNode configNode) {
+        ChildConfigNode result = new ChildConfigNode();
+
+//        CuratorFramework client = ZookeeperClientUtils.createClient(ip, "");
+//        try {
+//            result.setValue(ZookeeperClientUtils.getValue(client, fullPath));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        result.setFullPath(fullPath);
+        return result;
+    }
+
+    @RequestMapping(value = "/add", method = {RequestMethod.POST})
+    @ResponseBody
+    public BaseConfigNode add(HttpServletRequest request, BaseConfigNode configNode) {
+        BaseConfigNode result = new BaseConfigNode();
+
+        CuratorFramework client = ZookeeperClientUtils.createClient(ip, "");
+        try {
+            client.create().forPath(configNode.getFullPath(), configNode.getValue().getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        result.setFullPath("111");
+
         return result;
     }
 

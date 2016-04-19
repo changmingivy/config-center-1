@@ -25,38 +25,50 @@
             <div id="treeview" class=""></div>
         </div>
         <div class="col-sm-8">
-            <h2>详情</h2>
+            <h2>树状结构</h2>
 
             <div id="detailDiv" class="">
                 <form class="form-horizontal">
                     <div class="form-group">
+                        <div class="col-sm-offset-5 col-sm-6">
+                            <button id="btnAdd" type="button" class="btn btn-danger">新增节点</button>
+                            <button id="btnEdit" type="button" class="btn btn-danger">修改节点</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-sm-2 control-label">路径</label>
 
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="inputFullPath" disabled>
+                            <input type="text" class="form-control" id="labelFullPath" disabled>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">值</label>
 
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="inputValue">
+                            <input type="text" class="form-control" id="labelValue" disabled>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button id="btnSubmit" type="button" class="btn btn-default">提交</button>
-                        </div>
-                    </div>
+				##                    <div class="form-group">
+				##                        <div class="col-sm-offset-2 col-sm-6">
+				##                            <button id="btnSubmit" type="button" class="btn btn-default">提交</button>
+				##                        </div>
+				##                    </div>
                 </form>
             </div>
+
+		##            <div id="editDiv" style="display:none;">
+		##
+		##            </div>
         </div>
     </div>
 </div>
 <script>
 
     jQuery(function ($) {
-        btnSubmitListen();
+        //btnSubmitListen();
+        btnAddListen();
+        btnEditListen()
     })
 
 
@@ -77,23 +89,91 @@
     //显示详情
     function showDetail(event, node) {
         jQuery.get("/config-center/detail", {fullPath: node.fullPath}, function (data) {
-            $("#inputFullPath").val(data.fullPath);
-            $("#inputValue").val(data.value);
+            $("#labelFullPath").val(data.fullPath);
+            $("#labelValue").val(data.value);
             console.log(data);
         });
     }
 
-    //监听提交按钮点击事件
-    function btnSubmitListen() {
-        $("#btnSubmit").click(function () {
-            var params = {fullPath: $("#inputFullPath").val(), value: $("#inputValue").val()};
-            jQuery.post("/config-center/update", params, function (data) {
-                bootbox.alert("修改成功");
-            });
+    //    //监听提交按钮点击事件
+    //    function btnSubmitListen() {
+    //        $("#btnSubmit").click(function () {
+    //            var params = {fullPath: $("#inputFullPath").val(), value: $("#inputValue").val()};
+    //            jQuery.post("/config-center/update", params, function (data) {
+    //                bootbox.alert("修改成功");
+    //            });
+    //        })
+    //    }
+
+    function btnAddListen() {
+        $("#btnAdd").click(function () {
+            bootbox.dialog({
+                title: "新增节点",
+                message: '<form class="form-horizontal">' +
+                '<div class="form-group">' +
+                '<label class="col-sm-2 control-label">路径</label>' +
+
+                '<div class="col-sm-6">' +
+                '<input type="text" class="form-control" id="inputFullPath">' +
+                '</div>' +
+                '</div>' +
+                '<div class="form-group">' +
+                '<label class="col-sm-2 control-label">值</label>' +
+
+                '<div class="col-sm-6">' +
+                '<input type="text" class="form-control" id="inputValue">' +
+                ' </div>' +
+                '</div>' +
+                '</form>',
+                buttons: {
+                    success: {
+                        label: "保存",
+                        className: "btn-success",
+                        callback: function () {
+                            var params = {fullPath: $("#inputFullPath").val(), value: $("#inputValue").val()};
+
+                            jQuery.post("/config-center/add", params, function (data) {
+                                bootbox.alert("修改成功");
+                            });
+                        }
+                    }
+                }
+            })
         })
     }
 
+    function btnEditListen() {
+        $("#btnEdit").click(function () {
+            bootbox.dialog({
+                title: "编辑节点",
+                message: '<form class="form-horizontal">' +
+                '<div class="form-group">' +
+                '<label class="col-sm-2 control-label">路径</label>' +
 
+                '<div class="col-sm-6">' +
+                '<input type="text" class="form-control" id="inputFullPath">' +
+                '</div>' +
+                '</div>' +
+                '<div class="form-group">' +
+                '<label class="col-sm-2 control-label">值</label>' +
+
+                '<div class="col-sm-6">' +
+                '<input type="text" class="form-control" id="inputValue">' +
+                ' </div>' +
+                '</div>' +
+                '</form>',
+                buttons: {
+                    success: {
+                        label: "修改",
+                        className: "btn-success",
+                        callback: function () {
+                            var path111 = $("#inputFullPath").val();
+                        }
+                    }
+                }
+            })
+        })
+    }
 </script>
 </body>
 </html>
