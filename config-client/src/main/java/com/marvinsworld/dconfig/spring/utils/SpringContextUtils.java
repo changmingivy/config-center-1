@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
+@Deprecated
 @Service
 public class SpringContextUtils implements ApplicationContextAware {
   
