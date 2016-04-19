@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutionException;
  * @author Marvinsworld
  * @since 2015/12/13 10:48
  */
+@Deprecated
 public class DconfigPathCache {
 
     public static LoadingCache<String, List<Class>> dconfigCache = CacheBuilder.newBuilder().maximumSize(1000).build(

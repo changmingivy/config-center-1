@@ -1,4 +1,4 @@
-package com.marvinsworld.dconfig.listener;
+package com.eason.config.common;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
@@ -16,8 +16,7 @@ import org.apache.curator.utils.ZKPaths;
  * @author Marvinsworld
  * @since 2015/12/6 10:36
  */
-@Deprecated
-public class ZkNodeListener {
+public class ZookeeperNodeUtils {
 
     public static CuratorFramework createClient(String zkAddress, String namespace) {
         CuratorFramework client = CuratorFrameworkFactory.builder().connectString(zkAddress).sessionTimeoutMs(5000)
@@ -75,7 +74,7 @@ public class ZkNodeListener {
     }
 
     public static void main(String[] args) throws Exception {
-        CuratorFramework client = ZkNodeListener.createClient("10.12.2.124", "config-center");
+        CuratorFramework client = ZookeeperNodeUtils.createClient("10.12.2.124", "config-center");
 
         final NodeCache cache = new NodeCache(client, "/param", false);
         cache.start();

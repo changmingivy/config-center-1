@@ -1,8 +1,11 @@
 package com.marvinsworld.dconfig.spring.annotation;
 
+import com.eason.config.common.ZookeeperClientUtils;
+import com.eason.config.common.ZookeeperNodeUtils;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.marvinsworld.dconfig.cache.DconfigPathCache;
+import com.marvinsworld.dconfig.common.ZkUtils;
 import com.marvinsworld.dconfig.listener.ZkNodeListener;
 import org.apache.curator.framework.CuratorFramework;
 import org.slf4j.Logger;
@@ -30,16 +33,18 @@ public class DConfigAnnotationProcessor extends ApplicationObjectSupport impleme
 
     private String[] locations;
     private String namespace;
+    private String registry;
     private long timeout;
     private boolean ignoreResourceNotFound;
     private Properties properties;
 
     private CuratorFramework client;
 
-    public DConfigAnnotationProcessor(String[] locations, String namespace) {
+    public DConfigAnnotationProcessor(String[] locations, String namespace, String registry) {
         Preconditions.checkArgument((locations != null) && (locations.length > 0), "DConfig locations property must be not null!");
         this.locations = locations;
         this.namespace = namespace;
+        this.registry = registry;
 
         properties = new Properties();
         for (String file : locations) {
@@ -52,9 +57,9 @@ public class DConfigAnnotationProcessor extends ApplicationObjectSupport impleme
             }
         }
 
-        client = ZkNodeListener.createClient("192.168.8.3:2181", namespace);
+        client = ZookeeperClientUtils.createClient(registry, namespace);
         try {
-            ZkNodeListener.listenTreeCache(client,"/");
+            ZkNodeListener.listenTreeCache(client, "/");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,7 +68,7 @@ public class DConfigAnnotationProcessor extends ApplicationObjectSupport impleme
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         parseFields(bean, bean.getClass().getDeclaredFields());
 
-//        ZkNodeListener zkNodeListener = SpringContextUtils.getBean(ZkNodeListener.class);
+//        ZookeeperNodeUtils zkNodeListener = SpringContextUtils.getBean(ZookeeperNodeUtils.class);
 //        System.out.println(zkNodeListener);
         return bean;
     }
@@ -76,32 +81,52 @@ public class DConfigAnnotationProcessor extends ApplicationObjectSupport impleme
             DConfig annotation = AnnotationUtils.getAnnotation(field, DConfig.class);
             if (annotation != null) {
                 String key = annotation.value();
+                String value = null;
 
                 try {
                     DconfigPathCache.appendIfAbsent(key, bean.getClass());
                 } catch (ExecutionException e) {
-                    LOGGER.error("Dconfig add the key {} to cache errro!", key, e);
+                    LOGGER.error("Dconfig add the key {} to cache error!", key, e);
                 }
 
-//                try {
-//                    ZkUtils.getValue(client, ZkUtils.parseKey(key));
-//                } catch (Exception e) {
-//                    LOGGER.error("Dconfig server communicate error,please check the key {} exits!", key, e);
-//                }
+                //从远端获取配置项
+                try {
+                    value = ZookeeperClientUtils.getValue(client, ZkUtils.parseKey(key));
+                } catch (Exception e) {
+                    LOGGER.error("Dconfig server communicate error,please check the key {} exits!", key, e);
+                }
 
-                if (Strings.isNullOrEmpty(key)) {
-                    LOGGER.error("DConfig annotation key must have a name!");
-                } else {
-                    ReflectionUtils.makeAccessible(field);
-                    String value = properties.getProperty(key);
-                    try {
-                        if (!Strings.isNullOrEmpty(value)) {
-                            field.set(bean, value);
-                        }
-                    } catch (Exception e) {
-                        LOGGER.error("DConfig parse property key error,please check the key {}!", key, e);
+                //设置属性
+                ReflectionUtils.makeAccessible(field);
+                try {
+                    if (!Strings.isNullOrEmpty(value)) {
+                        field.set(bean, value);
                     }
+                } catch (Exception e) {
+                    LOGGER.error("DConfig parse property key error,please check the key {}!", key, e);
                 }
+
+                try {
+                    ZookeeperNodeUtils.addListener(client, ZkUtils.parseKey(key));
+                } catch (Exception e) {
+                    LOGGER.error("测试测试监听", key, e);
+                }
+
+
+                //从配置文件读取属性
+//                if (Strings.isNullOrEmpty(key)) {
+//                    LOGGER.error("DConfig annotation key must have a name!");
+//                } else {
+//                    ReflectionUtils.makeAccessible(field);
+//                    String value = properties.getProperty(key);
+//                    try {
+//                        if (!Strings.isNullOrEmpty(value)) {
+//                            field.set(bean, value);
+//                        }
+//                    } catch (Exception e) {
+//                        LOGGER.error("DConfig parse property key error,please check the key {}!", key, e);
+//                    }
+//                }
             }
         }
     }
@@ -138,5 +163,11 @@ public class DConfigAnnotationProcessor extends ApplicationObjectSupport impleme
         return ignoreResourceNotFound;
     }
 
+    public String getRegistry() {
+        return registry;
+    }
 
+    public void setRegistry(String registry) {
+        this.registry = registry;
+    }
 }

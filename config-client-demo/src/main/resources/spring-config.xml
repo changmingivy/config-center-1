@@ -13,8 +13,8 @@
 
     <!-- mvc controller -->
     <context:annotation-config/>
-    <bean id="SpringContextUtils" class="com.marvinsworld.dconfig.spring.utils.SpringContextUtils" />
-    <bean id="zkNodeListener" class="com.marvinsworld.dconfig.listener.ZkNodeListener" />
+    <!--<bean id="SpringContextUtils" class="com.marvinsworld.dconfig.spring.utils.SpringContextUtils" />-->
+    <!--<bean id="zkNodeListener" class="com.marvinsworld.dconfig.listener.ZkNodeListener" />-->
 
     <context:component-scan base-package="com.a.project"/>
     <context:component-scan base-package="com.b.project"/>
@@ -34,5 +34,6 @@
         <dconfig:locations value="dconfig/aproject-dconfig.properties,dconfig/bproject-dconfig.properties"/>
         <!--<dconfig:zk-address value="192.168.8.3:2181"/>-->
         <dconfig:namespace value="${dconfig.namespace}"/>
+        <dconfig:registry value="${dconfig.registry}"/>
     </dconfig:config>
 </beans>

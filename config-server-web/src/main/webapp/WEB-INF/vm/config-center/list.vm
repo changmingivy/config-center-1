@@ -151,14 +151,14 @@
                 '<label class="col-sm-2 control-label">路径</label>' +
 
                 '<div class="col-sm-6">' +
-                '<input type="text" class="form-control" id="inputFullPath">' +
+                '<input type="text" class="form-control" id="inputFullPath" value="'+$("#labelFullPath").val()+'">' +
                 '</div>' +
                 '</div>' +
                 '<div class="form-group">' +
                 '<label class="col-sm-2 control-label">值</label>' +
 
                 '<div class="col-sm-6">' +
-                '<input type="text" class="form-control" id="inputValue">' +
+                '<input type="text" class="form-control" id="inputValue" value="'+$("#labelValue").val()+'">' +
                 ' </div>' +
                 '</div>' +
                 '</form>',
@@ -167,7 +167,10 @@
                         label: "修改",
                         className: "btn-success",
                         callback: function () {
-                            var path111 = $("#inputFullPath").val();
+                            var params = {fullPath: $("#inputFullPath").val(), value: $("#inputValue").val()};
+                            jQuery.post("/config-center/update", params, function (data) {
+                                bootbox.alert("修改成功");
+                            });
                         }
                     }
                 }

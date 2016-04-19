@@ -10,6 +10,7 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
  * @author Marvinsworld
  * @since 2015/12/6 13:03
  */
+@Deprecated
 public class RegisterCenter {
 
     public static CuratorFramework createClient(String zkAddress,String namespace) {

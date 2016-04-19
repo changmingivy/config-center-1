@@ -21,6 +21,7 @@
                 <xsd:element ref="locations" />
                 <!--<xsd:element ref="zk-address" />-->
                 <xsd:element ref="namespace" />
+                <xsd:element ref="registry" />
             </xsd:sequence>
 
             <!--<xsd:sequence>-->
@@ -35,6 +36,11 @@
                 </xsd:annotation>
             </xsd:attribute>
             <xsd:attribute name="namespace" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation><![CDATA[]]></xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="registry" type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation><![CDATA[]]></xsd:documentation>
                 </xsd:annotation>
@@ -63,6 +69,16 @@
     </xsd:element>
 
     <xsd:element name="namespace">
+        <xsd:complexType>
+            <xsd:attribute name="value" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation><![CDATA[]]></xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="registry">
         <xsd:complexType>
             <xsd:attribute name="value" type="xsd:string">
                 <xsd:annotation>

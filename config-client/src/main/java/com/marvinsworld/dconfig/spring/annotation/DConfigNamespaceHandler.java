@@ -44,6 +44,11 @@ class DConfigNamespaceHandler extends NamespaceHandlerSupport {
                 builder.addConstructorArgValue(namespace);
             }
 
+            String registry = DomUtils.getChildElementByTagName(element, "registry").getAttribute("value");
+            if (StringUtils.hasLength(registry)) {
+                builder.addConstructorArgValue(registry);
+            }
+
 //            builder.addPropertyValue("locations",
 //                    parserContext.getDelegate().parseCustomElement(DomUtils.getChildElementByTagName(element, "locations"),builder.getRawBeanDefinition()));
 

@@ -9,6 +9,7 @@ import org.springframework.util.Assert;
  * @author Marvinsworld
  * @since 2015/12/6 13:44
  */
+@Deprecated
 public class ZkUtils {
     public static final String ROOT = "/";
     public static final String SEPERATE = "/";
