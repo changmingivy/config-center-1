@@ -31,7 +31,7 @@ public class HelotPoolTest {
 					for (int i = 1; i <= stoneNum; i++) {
 						System.out.println(Thread.currentThread().getName() + " 搬完"+ i + "块石头");
 						if (i == 10) {
-							throw new RuntimeException("搬完第60块石头不干了");
+							throw new RuntimeException("搬完第10块石头不干了");
 						}
 						try{
 							Thread.sleep(100);//休息下
@@ -57,8 +57,8 @@ public class HelotPoolTest {
 		pool.assignTask();
 		pool.startWork();
 
-		pool.assignTask();
-		pool.startWork();
+		//pool.assignTask();
+		//pool.startWork();
 
 
 	}
